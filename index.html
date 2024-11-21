@@ -6,30 +6,30 @@
   <title>WOS CJ支援分配器</title>
   <style>
     body {
-      font-family: 'Arial', sans-serif;
+      font-family: 'Tahoma', sans-serif;
       margin: 0;
       padding: 0;
-      background: url('https://example.com/cold-snow-background.jpg') no-repeat center center fixed;
+      background: url('https://example.com/frozen-abyss-background.jpg') no-repeat center center fixed;
       background-size: cover;
-      color: #e0f7fa;
+      color: #e0f7fa; /* 冰雪色调的文字 */
       font-size: 18px;
     }
     h1, h2 {
-      color: #00bcd4;
-      text-shadow: 0 0 10px rgba(0, 153, 204, 0.8);
+      color: #66ccff; /* 冰蓝色调的标题 */
+      text-shadow: 0 0 15px rgba(102, 204, 255, 0.8), 0 0 20px rgba(0, 204, 255, 0.7);
     }
     h4 {
-      color: #b3e5fc;
-      text-shadow: 0 0 5px rgba(0, 153, 204, 0.8);
+      color: #b3e5fc; /* 冰雪蓝 */
       font-size: 16px;
+      text-shadow: 0 0 10px rgba(0, 153, 204, 0.8);
     }
     .container {
       padding: 30px;
-      background-color: rgba(0, 0, 0, 0.6);
+      background-color: rgba(0, 0, 0, 0.7);
       border-radius: 15px;
       max-width: 600px;
-      margin: 50px auto;
-      box-shadow: 0 0 30px rgba(0, 153, 204, 0.6);
+      margin: auto auto;
+      box-shadow: 0 0 50px rgba(0, 204, 255, 0.6);
     }
     textarea, input, button {
       width: 100%;
@@ -37,37 +37,43 @@
       font-size: 18px;
       margin: 10px 0;
       border: none;
-      border-radius: 10px;
-      background: rgba(0, 0, 0, 0.7);
-      color: #b3e5fc;
+      border-radius: 12px;
+      background: rgba(0, 0, 0, 0.8);
+      color: #b3e5fc; /* 冰蓝色文本 */
       box-sizing: border-box;
+      box-shadow: 0 0 15px rgba(0, 204, 255, 0.5);
     }
     textarea:focus, input:focus {
       outline: none;
-      border: 2px solid #00bcd4;
-      box-shadow: 0 0 10px #00bcd4;
+      border: 2px solid #66ccff; /* 冰蓝色边框 */
+      box-shadow: 0 0 10px #66ccff;
     }
     button {
       cursor: pointer;
-      background: linear-gradient(to bottom, #00bcd4, #0288d1);
+      background: linear-gradient(to bottom, #66ccff, #3399ff);
       border: none;
-      color: #ffffff;
+      color: #001f3f;
       font-weight: bold;
       transition: background-color 0.3s, transform 0.2s;
+      box-shadow: 0 0 15px rgba(102, 204, 255, 0.5);
     }
     button:hover {
-      background: linear-gradient(to bottom, #00bcd4, #0288d1);
-      transform: scale(1.05);
+      background: linear-gradient(to bottom, #3399ff, #1e7bb8);
+      transform: scale(1.1);
+    }
+    button:active {
+      box-shadow: 0 0 20px #66ccff, inset 0 0 20px #3399ff;
     }
     pre {
       background: rgba(0, 0, 0, 0.8);
-      border: 2px solid #00bcd4;
-      border-radius: 10px;
+      border: 2px solid #66ccff;
+      border-radius: 12px;
       padding: 20px;
-      color: #e0f7fa;
+      color: #e0f7fa; /* 冰雪色文本 */
       font-size: 16px;
       white-space: pre-wrap;
       word-wrap: break-word;
+      box-shadow: 0 0 15px rgba(102, 204, 255, 0.5);
     }
     textarea {
       resize: none;
@@ -76,24 +82,46 @@
     .frosted-effect {
       backdrop-filter: blur(10px) saturate(1.2);
     }
-    /* Add icy and frost effects */
-    button:active {
-      box-shadow: 0 0 15px #00bcd4, inset 0 0 15px #0288d1;
+    /* Magic glowing border effect */
+    .glow-border {
+      border: 2px solid #66ccff; /* 冰蓝色边框 */
+      box-shadow: 0 0 15px rgba(102, 204, 255, 0.8);
+    }
+    /* Floating ice particles effect */
+    .particles {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      animation: floatParticles 3s infinite linear;
+    }
+    @keyframes floatParticles {
+      0% {
+        transform: translateY(0);
+      }
+      100% {
+        transform: translateY(-100%);
+      }
     }
   </style>
 </head>
 <body>
   <div class="container">
     <h1>WOS CJ支援分配器</h1>
-    <h4>@作者：#1145 雞頭哥　@鳴謝：#1145 Kiu哥</h4>
+    <h4>@作者：#1145 雞頭哥　　@鳴謝：#1145 Kiu哥</h4>
     <p>請輸入參與者名單（以逗號分隔）：</p>
     <textarea id="participantsInput" oninput="autoResize(this)">Kiu,小可愛,呂布,歐皇,曼曼,寒霜,撒挖,頭搖,可欣</textarea>
     <p>請輸入每人要支援的人數：</p>
     <input type="number" id="numSupporters" min="1" placeholder="每人支援人數" value="3">
-    <button id="assignBtn" class="frosted-effect">開始分配</button>
+    <button id="assignBtn" class="frosted-effect glow-border">開始分配</button>
     <h2>分配結果</h2>
     <pre id="output">尚未開始分配</pre>
   </div>
+
+  <!-- Ice particle effect layer -->
+  <div class="particles"></div>
 
   <script>
     function autoResize(textarea) {
