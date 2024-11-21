@@ -6,92 +6,99 @@
   <title>WOS CJ支援分配器</title>
   <style>
     body {
-      font-family: 'Courier New', Courier, monospace;
-      margin: 20px;
-      background: linear-gradient(to bottom, #001f3f, #004080);
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: url('https://example.com/cold-snow-background.jpg') no-repeat center center fixed;
+      background-size: cover;
       color: #e0f7fa;
+      font-size: 18px;
     }
-    input, button, textarea {
-      margin: 10px 0;
-      padding: 10px;
+    h1, h2 {
+      color: #00bcd4;
+      text-shadow: 0 0 10px rgba(0, 153, 204, 0.8);
+    }
+    h4 {
+      color: #b3e5fc;
+      text-shadow: 0 0 5px rgba(0, 153, 204, 0.8);
       font-size: 16px;
-      border: 1px solid #00bcd4;
-      border-radius: 5px;
-      background-color: rgba(0, 47, 75, 0.8);
-      color: #e0f7fa;
+    }
+    .container {
+      padding: 30px;
+      background-color: rgba(0, 0, 0, 0.6);
+      border-radius: 15px;
+      max-width: 600px;
+      margin: 50px auto;
+      box-shadow: 0 0 30px rgba(0, 153, 204, 0.6);
+    }
+    textarea, input, button {
+      width: 100%;
+      padding: 15px;
+      font-size: 18px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 10px;
+      background: rgba(0, 0, 0, 0.7);
+      color: #b3e5fc;
       box-sizing: border-box;
     }
-    input:focus, textarea:focus {
+    textarea:focus, input:focus {
       outline: none;
-      border-color: #81d4fa;
-      box-shadow: 0 0 5px #81d4fa;
+      border: 2px solid #00bcd4;
+      box-shadow: 0 0 10px #00bcd4;
     }
     button {
       cursor: pointer;
-      background: linear-gradient(to bottom, #81d4fa, #0288d1);
+      background: linear-gradient(to bottom, #00bcd4, #0288d1);
       border: none;
-      color: #001f3f;
+      color: #ffffff;
       font-weight: bold;
       transition: background-color 0.3s, transform 0.2s;
     }
     button:hover {
-      background: linear-gradient(to bottom, #4fc3f7, #0277bd);
+      background: linear-gradient(to bottom, #00bcd4, #0288d1);
       transform: scale(1.05);
     }
-    textarea {
-      width: 100%;
-      min-height: 80px;
-      resize: none;
-      overflow-y: hidden;
-    }
-    textarea[aria-expanded="true"] {
-      resize: vertical;
-    }
     pre {
-      background-color: rgba(0, 47, 75, 0.8);
-      padding: 10px;
-      border: 1px solid #00bcd4;
-      border-radius: 5px;
-      white-space: pre-wrap;
+      background: rgba(0, 0, 0, 0.8);
+      border: 2px solid #00bcd4;
+      border-radius: 10px;
+      padding: 20px;
       color: #e0f7fa;
+      font-size: 16px;
+      white-space: pre-wrap;
+      word-wrap: break-word;
     }
-    h1, h2 {
-      color: #81d4fa;
-      text-shadow: 1px 1px 2px #004d99;
+    textarea {
+      resize: none;
+      min-height: 120px;
     }
-    h1 {
-      border-bottom: 2px solid #0288d1;
-      padding-bottom: 10px;
+    .frosted-effect {
+      backdrop-filter: blur(10px) saturate(1.2);
     }
-    p {
-      color: #b3e5fc;
-    }
-    /* Frosted effect for inputs and buttons */
-    input, button, textarea {
-      backdrop-filter: blur(5px);
-    }
-    /* Add a glowing effect for the button */
+    /* Add icy and frost effects */
     button:active {
-      box-shadow: 0 0 10px #81d4fa, inset 0 0 10px #0288d1;
+      box-shadow: 0 0 15px #00bcd4, inset 0 0 15px #0288d1;
     }
   </style>
 </head>
 <body>
-  <h1>WOS CJ支援分配器</h1>
-  <h4>@作者：#1145 雞頭哥　　@鳴謝：#1145 Kiu哥</h4>
-  <p>請輸入參與者名單（以逗號分隔）：</p>
-  <textarea id="participantsInput" oninput="autoResize(this)">Kiu,小可愛,呂布,歐皇,曼曼,寒霜,撒挖,頭搖,可欣</textarea>
-  <p>請輸入每人要支援的人數：</p>
-  <input type="number" id="numSupporters" min="1" placeholder="每人支援人數" value="3">
-  <button id="assignBtn">開始分配</button>
-  <h2>分配結果</h2>
-  <pre id="output">尚未開始分配</pre>
+  <div class="container">
+    <h1>WOS CJ支援分配器</h1>
+    <h4>@作者：#1145 雞頭哥　　@鳴謝：#1145 Kiu哥</h4>
+    <p>請輸入參與者名單（以逗號分隔）：</p>
+    <textarea id="participantsInput" oninput="autoResize(this)">Kiu,小可愛,呂布,歐皇,曼曼,寒霜,撒挖,頭搖,可欣</textarea>
+    <p>請輸入每人要支援的人數：</p>
+    <input type="number" id="numSupporters" min="1" placeholder="每人支援人數" value="3">
+    <button id="assignBtn" class="frosted-effect">開始分配</button>
+    <h2>分配結果</h2>
+    <pre id="output">尚未開始分配</pre>
+  </div>
 
   <script>
-    // 自適應高度函數
     function autoResize(textarea) {
-      textarea.style.height = "auto"; // 重設高度
-      textarea.style.height = `${textarea.scrollHeight}px`; // 根據內容調整高度
+      textarea.style.height = "auto";
+      textarea.style.height = `${textarea.scrollHeight}px`;
     }
 
     document.getElementById("assignBtn").addEventListener("click", () => {
