@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>支援者分配工具</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background-color: #f9f9f9;
+    }
+    input, button, textarea {
+      margin: 10px 0;
+      padding: 10px;
+      font-size: 16px;
+    }
+    textarea {
+      width: 100%;
+      height: 80px;
+    }
+    pre {
+      background-color: #eee;
+      padding: 10px;
+      border: 1px solid #ddd;
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
+<body>
+  <h1>支援者分配工具</h1>
+  <p>請輸入參與者名單（以逗號分隔）：</p>
+  <textarea id="participantsInput">Kiu,小可愛,呂布,歐皇,曼曼,寒霜,撒挖,頭搖,可欣</textarea>
+  <p>請輸入每人要支援的人數：</p>
+  <input type="number" id="numSupporters" min="1" placeholder="每人支援數量">
+  <button id="assignBtn">開始分配</button>
+  <h2>分配結果</h2>
+  <pre id="output">尚未開始分配</pre>
+
+  <script>
+    document.getElementById("assignBtn").addEventListener("click", () => {
+      // 取得參與者名單
+      const participantsInput = document.getElementById("participantsInput").value.trim();
+      const participants = participantsInput.split(",").map(p => p.trim()).filter(p => p);
+
+      if (participants.length < 2) {
+        alert("參與者名單至少需要 2 個人！");
+        return;
+      }
+
+      // 取得每人支援人數
+      const numSupporters = parseInt(document.getElementById("numSupporters").value, 10);
+
+      if (isNaN(numSupporters) || numSupporters < 1 || numSupporters >= participants.length) {
+        alert("請輸入有效的支援人數 (1 至參與者總數-1)");
+        return;
+      }
+
+      const supporters = {};
+      const assignedSupporters = {};
+      let success = false;
+
+      while (!success) {
+        // 初始化
+        participants.forEach(p => {
+          supporters[p] = [];
+          assignedSupporters[p] = 0;
+        });
+
+        try {
+          // 隨機分配支援者
+          participants.forEach(supporter => {
+            const availableParticipants = participants.filter(
+              p => p !== supporter && assignedSupporters[p] < numSupporters
+            );
+
+            if (availableParticipants.length < numSupporters) throw new Error();
+
+            const chosenParticipants = availableParticipants.sort(() => 0.5 - Math.random()).slice(0, numSupporters);
+            supporters[supporter] = chosenParticipants;
+            chosenParticipants.forEach(participant => assignedSupporters[participant]++);
+          });
+
+          // 驗證每人是否被正確支援
+          success = participants.every(p => assignedSupporters[p] === numSupporters);
+        } catch {
+          success = false;
+        }
+      }
+
+      // 顯示分配結果
+      const outputElement = document.getElementById("output");
+      outputElement.textContent = "=== 分配結果 ===\n";
+      participants.forEach(supporter => {
+        outputElement.textContent += `${supporter} > ${supporters[supporter].join(", ")}\n`;
+      });
+      outputElement.textContent += "\n=== 分配完成 ===";
+    });
+  </script>
+</body>
+</html>
